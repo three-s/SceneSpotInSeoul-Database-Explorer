@@ -27,7 +27,7 @@ class App extends Component {
     const { classes } = this.props;
 
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <div className={classes.app}>
           <AppBar
             position="absolute"
