@@ -7,7 +7,7 @@ import Constants from "../Constants";
 
 class DataInfo extends Component {
   state = {
-    data: {}
+    data: []
   };
 
   componentDidMount() {
@@ -18,14 +18,14 @@ class DataInfo extends Component {
     const { data } = this.state;
 
     const dataColumns = {
-      id: "string",
+      name: "string",
       updateDate: "string"
     };
 
     return (
       <DataTable 
         columns={dataColumns}
-        rows={[data]}
+        rows={data}
         visibleEdit={false}
         visibleDelete={false}
       />
@@ -36,6 +36,7 @@ class DataInfo extends Component {
     return axios
       .get(`${Constants.BASE_API_ENDPOINT}/info`)
       .then(response => {
+        console.log(response.data);
         this.setState({
           data: response.data
         });
