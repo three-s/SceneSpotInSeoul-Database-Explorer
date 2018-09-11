@@ -19,7 +19,7 @@ class DataInfo extends Component {
 
     const dataColumns = {
       name: "string",
-      updateDate: "string"
+      updatedDate: "string"
     };
 
     return (
