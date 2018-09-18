@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+import Button from '@material-ui/core/Button';
 
 import { Table } from "reactstrap";
+
+import { DataDetailDialog } from "./DataDetailDialog";
 
 export class DataTable extends Component {
   static defaultProps = {
@@ -31,8 +30,14 @@ export class DataTable extends Component {
     visibleEdit: PropTypes.bool,
     visibleDelete: PropTypes.bool,
     onRowEdit: PropTypes.func,
-    onRowDelete: PropTypes.func
+    onRowDelete: PropTypes.func,
   };
+
+  state = {
+    detailDialogOpen: false,
+    detailDialogTitle: "",
+    detailDialogContent: ""
+  }
 
   render() {
     const {
@@ -44,6 +49,12 @@ export class DataTable extends Component {
       onRowEdit,
       onRowDelete
     } = this.props;
+
+    const {
+      detailDialogOpen,
+      detailDialogTitle,
+      detailDialogContent
+    } = this.state;
 
     const columnsKeys = Object.keys(columns);
 
@@ -58,16 +69,16 @@ export class DataTable extends Component {
       const renderRows = columnsKeys.map(col => {
         if (columns[col] === "array") {
           return (
-            <td key={col}>
+            <td key={col} onClick={() => this.openDetailDialog(col, parsedRow[col].toString())}>
               <Typography variant="body1">
-                [{parsedRow[col].toString()}]
+                [{this.truncData(parsedRow[col].toString())}]
               </Typography>
             </td>
           );
         } else {
           return (
-            <td key={col}>
-              <Typography variant="body1">{parsedRow[col]}</Typography>
+            <td key={col} onClick={() => this.openDetailDialog(col, parsedRow[col])}>
+              <Typography variant="body1">{this.truncData(parsedRow[col])}</Typography>
             </td>
           );
         }
@@ -78,16 +89,16 @@ export class DataTable extends Component {
           {renderRows}
           {visibleEdit && (
             <td>
-              <IconButton onClick={() => onRowEdit(parsedRow)}>
-                <EditIcon />
-              </IconButton>
+              <Button onClick={() => onRowEdit(parsedRow)}>
+                Edit
+              </Button>
             </td>
           )}
           {visibleDelete && (
             <td>
-              <IconButton onClick={() => onRowDelete(parsedRow)}>
-                <DeleteIcon />
-              </IconButton>
+              <Button onClick={() => onRowDelete(parsedRow)}>
+                Delete
+              </Button>
             </td>
           )}
         </tr>
@@ -95,18 +106,47 @@ export class DataTable extends Component {
     });
 
     return (
-      <Table hover>
-        <thead>
-          <tr>
-            {renderColumn}
-            {visibleEdit && <th />}
-            {visibleDelete && <th />}
-          </tr>
-        </thead>
-        <tbody>{renderRow}</tbody>
-      </Table>
+      <div>
+        <Table responsive hover>
+          <thead>
+            <tr>
+              {renderColumn}
+              {visibleEdit && <th />}
+              {visibleDelete && <th />}
+            </tr>
+          </thead>
+          <tbody>{renderRow}</tbody>
+        </Table>
+        <DataDetailDialog
+          isOpen={detailDialogOpen}
+          title={detailDialogTitle}
+          content={detailDialogContent}
+          onDialogClosed={this.handleDetailDialogClose}
+          onCloseClicked={this.handleDetailDialogClose} />
+      </div>
     );
   }
+
+  truncData = (data) => {
+    if (data.length > 15) {
+      return data.substring(0, 15) + "...";
+    }
+    return data;
+  };
+
+  openDetailDialog = (title, content) => {
+    this.setState({
+      detailDialogOpen: true,
+      detailDialogTitle: title,
+      detailDialogContent: content
+    });
+  };
+
+  handleDetailDialogClose = () => {
+    this.setState({
+      detailDialogOpen: false
+    });
+  };
 }
 
 export default DataTable;
