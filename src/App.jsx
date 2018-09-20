@@ -10,6 +10,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import DataInfoIcon from "@material-ui/icons/Description";
 import LocationsIcon from "@material-ui/icons/LocationOn";
@@ -48,30 +49,38 @@ class App extends Component {
           >
             <div className={classes.toolbar} />
             <List component="nav">
-              <ListItem button component={Link} to="/data-info">
-                <ListItemIcon>
-                  <DataInfoIcon />
-                </ListItemIcon>
-                <ListItemText primary="DataInfo" />
-              </ListItem>
-              <ListItem button component={Link} to="/locations">
-                <ListItemIcon>
-                  <LocationsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Locations" />
-              </ListItem>
-              <ListItem button component={Link} to="/media">
-                <ListItemIcon>
-                  <MediaIcon />
-                </ListItemIcon>
-                <ListItemText primary="Media" />
-              </ListItem>
-              <ListItem button component={Link} to="/scenes">
-                <ListItemIcon>
-                  <ScenesIcon />
-                </ListItemIcon>
-                <ListItemText primary="Scenes" />
-              </ListItem>
+              <Tooltip title="DataInfo" placement="right">
+                <ListItem button component={Link} to="/data-info">
+                  <ListItemIcon>
+                    <DataInfoIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="DataInfo" />
+                </ListItem>
+              </Tooltip>
+              <Tooltip title="Locations" placement="right">
+                <ListItem button component={Link} to="/locations">
+                  <ListItemIcon>
+                    <LocationsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Locations" />
+                </ListItem>
+              </Tooltip>
+              <Tooltip title="Media" placement="right">
+                <ListItem button component={Link} to="/media">
+                  <ListItemIcon>
+                    <MediaIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Scenes" />
+                </ListItem>
+              </Tooltip>
+              <Tooltip title="Scenes" placement="right">
+                <ListItem button component={Link} to="/scenes">
+                  <ListItemIcon>
+                    <ScenesIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Scenes" />
+                </ListItem>
+              </Tooltip>
             </List>
           </Drawer>
           <main className={classes.content}>
@@ -91,7 +100,7 @@ class App extends Component {
 const styles = theme => ({
   app: {
     flexGrow: 1,
-    height: '100vh',
+    height: "100vh",
     zIndex: 1,
     overflow: "hidden",
     position: "relative",
@@ -102,7 +111,15 @@ const styles = theme => ({
   },
   drawerPaper: {
     position: "relative",
-    width: 240
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing.unit * 9
+    }
   },
   content: {
     flexGrow: 1,

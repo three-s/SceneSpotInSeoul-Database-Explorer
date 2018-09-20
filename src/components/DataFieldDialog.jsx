@@ -58,21 +58,29 @@ export class DataFieldDialog extends Component {
     } = this.props;
 
     const columnsKeys = Object.keys(columns);
-    const renderField = columnsKeys.map(col => (
-      <TextField
-        key={col}
-        id={col}
-        label={col}
-        value={this.state.data[col]}
-        onChange={this.handleTextFieldChange(col)}
-        margin="dense"
-        fullWidth
-        disabled={disableColumns.indexOf(col) >= 0}
-      />
-    ));
+    const renderField = columnsKeys.map(col => {
+      const multiline = columns[col] === "string";
+      return (
+        <TextField
+          key={col}
+          id={col}
+          label={col}
+          value={this.state.data[col]}
+          onChange={this.handleTextFieldChange(col)}
+          margin="dense"
+          fullWidth
+          multiline={multiline}
+          disabled={disableColumns.indexOf(col) >= 0}
+        />
+      );
+    });
 
     return (
-      <Dialog open={isOpen} onClose={onDialogClosed} onEntered={this.handleDialogEntered}>
+      <Dialog
+        open={isOpen}
+        onClose={onDialogClosed}
+        onEntered={this.handleDialogEntered}
+      >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{renderField}</DialogContent>
         <DialogActions>
