@@ -19,8 +19,8 @@ export class DataTable extends Component {
     },
     visibleEdit: true,
     visibleDelete: true,
-    onRowEdit: row => {},
-    onRowDelete: row => {}
+    onRowEdit: (row, index) => {},
+    onRowDelete: (row, index) => {}
   };
 
   static propTypes = {
@@ -64,7 +64,7 @@ export class DataTable extends Component {
       </th>
     ));
 
-    const renderRow = rows.map(row => {
+    const renderRow = rows.map((row, index) => {
       const parsedRow = rowParser(columns, row);
       const renderRows = columnsKeys.map(col => {
         if (columns[col] === "array") {
@@ -89,14 +89,14 @@ export class DataTable extends Component {
           {renderRows}
           {visibleEdit && (
             <td>
-              <Button onClick={() => onRowEdit(parsedRow)}>
+              <Button onClick={() => onRowEdit(parsedRow, index)}>
                 Edit
               </Button>
             </td>
           )}
           {visibleDelete && (
             <td>
-              <Button onClick={() => onRowDelete(parsedRow)}>
+              <Button onClick={() => onRowDelete(parsedRow, index)}>
                 Delete
               </Button>
             </td>
