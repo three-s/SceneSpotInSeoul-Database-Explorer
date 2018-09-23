@@ -89,7 +89,7 @@ class BaseDataPage extends Component {
           positiveButtonText="add"
           isOpen={this.state.addDialogOpen}
           columns={Utils.excludeObjectKey(dataColumns, "uuid")}
-          dataTransform={this.dialogDataTransform}
+          dataTransform={dialogDataTransform}
           onPositiveClicked={data => {
             this.createData(data);
             this.handleAddDialogClose();
