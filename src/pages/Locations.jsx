@@ -32,7 +32,7 @@ class Locations extends Component {
     const dialogDataTransform = data => {
       data["lat"] = parseFloat(data["lat"]);
       data["lon"] = parseFloat(data["lon"]);
-      data["tags"] = data["tags"].split(",");
+      data["tags"] = data["tags"].replace(/\s/gi, "_").split(",");
       return data;
     };
 

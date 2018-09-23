@@ -26,7 +26,7 @@ class Scenes extends Component {
     };
 
     const dialogDataTransform = data => {
-      data["tags"] = data["tags"].split(",");
+      data["tags"] = data["tags"].replace(/\s/gi, "_").split(",");
       return data;
     };
 
